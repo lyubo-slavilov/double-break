@@ -6,23 +6,23 @@ var score = 0;
 var best = 0;
 var running = false;
 
-var initialHorizontalVelocity = 5;
-var currentHorizontalVelocity = initialHorizontalVelocity;
+var initialV = 5;
+var currentV = initialV;
 //we are doubling the velocity in a span of 10 000 frames
 //you can update this value to make the speed rise at a different rate
-const horizontalVelocityCoef = initialHorizontalVelocity / 10000;
+const velocityStep = initialV / 10000;
 //this indicates the maximum velocity after which we stop adding the coef
-var maxHorizontalVelocity = initialHorizontalVelocity * 2;
+var maxV = initialV * 2;
 var birdXPosition = 100;
 
 function setup() {
     createCanvas(800,600);
     var pipesCount = 3;
     var padding = width / pipesCount;
-    pipes = new Pipes(pipesCount, padding, initialHorizontalVelocity);
+    pipes = new Pipes(pipesCount, padding, initialV);
 
     bird = new Bird(10, height/2, 30);
-    bird.v.x = initialHorizontalVelocity;
+    bird.v.x = initialV;
 
     gravity = createVector(0,0.3);
 }
@@ -62,17 +62,17 @@ function draw() {
         running = false;
         score = 0;
         //we should reset the velocity after each death so it can start at 5
-        currentHorizontalVelocity = initialHorizontalVelocity;
+        currentV = initialV;
     }
 }
 
 function updateSpeed(){
   //we add the coef
-  currentHorizontalVelocity += horizontalVelocityCoef;
+  currentV += velocityStep;
   //we constrain the velocity otherwise it will rise indefinitelly making the game impossible after a while
-  constrain(currentHorizontalVelocity,initialHorizontalVelocity,maxHorizontalVelocity)
+  constrain(currentV,initialV,maxV)
   //we set the new velocity for the pipes
-  pipes.velocity = currentHorizontalVelocity;
+  pipes.velocity = currentV;
 }
 
 function showUi() {
