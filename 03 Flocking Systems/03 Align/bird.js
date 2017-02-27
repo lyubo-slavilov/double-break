@@ -12,7 +12,7 @@ function Bird(x, y, size) {
 
     /**
     * So here is the new steer behavior
-    * It tries to align the birds velocity to the average velocity of its neighbours
+    * It tries to align the bird's velocity to the average velocity of its neighbours
     */
     this.align = function(birds) {
 
@@ -40,7 +40,7 @@ function Bird(x, y, size) {
                 continue;
             }
 
-            //Accumulate the i-th bird's velocity into the desired vector
+            //Accumulate the i-th bird's velocity into the desire vector
             desire.add(bird.v);
             //And also keep track of the total birds in range
             count++;
@@ -92,7 +92,7 @@ function Bird(x, y, size) {
         this.v.add(this.a);
 
         //We must limit the velocity here
-        //Because all the forces we are applying may result as large velocities
+        //because all the forces we are applying may induce large velocities
         this.v.limit(this.maxVelocity)
 
         this.pos.add(this.v);
