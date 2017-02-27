@@ -6,13 +6,13 @@ function Bird(x, y, size) {
     this.v = createVector();
     this.a = createVector();
 
-    //THese two props are renamed
+    //These two props are renamed
     this.maxVelocity = 3;
     this.maxForce = 0.2;
 
     /**
     * So here is the new steer behavior
-    * It tries to align the bird's velocity to the averave velocity of its neighbors
+    * It tries to align the birds velocity to the average velocity of its neighbours
     */
     this.align = function(birds) {
 
@@ -24,7 +24,7 @@ function Bird(x, y, size) {
         for (var i = 0; i < birds.length; i++) {
             var bird = birds[i];
 
-            //Whel this is the same bird as this bird, so skip this loop step
+            //When this is the same bird as this bird, so skip this loop step
             if (this == bird) {
                 continue;
             }
@@ -40,13 +40,13 @@ function Bird(x, y, size) {
                 continue;
             }
 
-            //Accumulate the i-th bird's velocity into the desire vector
+            //Accumulate the i-th bird's velocity into the desired vector
             desire.add(bird.v);
             //And also keep track of the total birds in range
             count++;
         }
 
-        //Apparently no birds are in raneg, so our job is done here
+        //Apparently no birds are in range, so our job here is done 
         if (count == 0) {
             return;
         }
@@ -55,7 +55,7 @@ function Bird(x, y, size) {
         //Psst! Is this step really neccessary?
         desire.div(count);
 
-        //Now just set it's magnitute to the maxVelocity
+        //Now just set its magnitute to the maxVelocity
         desire.setMag(this.maxVelocity);
 
         //substract the this bird's velocity from the desire in order to get the force
@@ -92,7 +92,7 @@ function Bird(x, y, size) {
         this.v.add(this.a);
 
         //We must limit the velocity here
-        //Because all the forces we are applying may result large velocities
+        //Because all the forces we are applying may result as large velocities
         this.v.limit(this.maxVelocity)
 
         this.pos.add(this.v);
