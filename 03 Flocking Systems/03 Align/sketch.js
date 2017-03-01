@@ -31,7 +31,7 @@ function draw() {
 
     for (var i = 0; i < birds.length; i++) {
 
-        //Align the bird's velocity to the neighbor velocities
+        //Align the bird's velocity to the neighbours velocities
         birds[i].align(birds);
 
         birds[i].update();
