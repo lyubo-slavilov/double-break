@@ -12,8 +12,13 @@ function setup() {
     birds.push(bird);
 
     //Create the sliders
+    var d = createDiv('Separate ');
     sepSlider = createSlider(0, 5, 1, 0.1); //from 0 to 5 with initial value of 1 and change step of 0.1
+    sepSlider.parent(d);
+    
+    d = createDiv('Align ');
     algnSlider = createSlider(0, 5, 1, 0.1); //from 0 to 5 with initial value of 1 and change step of 0.1
+    algnSlider.parent(d);
 }
 
 function keyPressed() {
