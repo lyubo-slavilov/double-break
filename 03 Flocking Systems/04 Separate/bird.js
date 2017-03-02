@@ -1,15 +1,68 @@
 function Bird(x, y, size) {
 
     this.size = size;
+    
     this.pos = createVector(x,y);
-
     this.v = createVector();
     this.a = createVector();
-    this.fill = [200,200,200,100];
+
 
     this.maxVelocity = 3;
     this.maxForce = 0.2;
 
+    //So here is our separate steering behavior
+    //Nothing fancy - just collect the unit vectors pointing from neighbors to this bird,
+    //sum them, average them and use the result as desired velocity direction
+    this.separate = function(birds, weight) {
+
+        var r = createVector();
+        var desire = createVector();
+        var count = 0;
+        for (var i = 0; i < birds.length; i++) {
+            var bird = birds[i];
+            
+            //if the examined bird is this bird, skeep the loop's step
+            if (bird == this) {
+                continue;
+            }
+            
+            //compute the distance
+            r.set(this.pos.x - bird.pos.x, this.pos.y - bird.pos.y);
+            var d = r.mag();
+
+            //if the neighbor is far than 25 pixels - skip loop's step
+            if (d > 25) {
+                continue;
+            }
+
+            //Normalize the radius vector and accumulate it in the desire vector
+            r.normalize();
+            desire.add(r);
+            
+            count++;
+        }
+        
+        //Get out of this method if no neighbors arround 
+        if (count == 0) {
+            return;
+        }
+
+        desire.div(count); //This step is abigous, but I left the code to clarify the concept
+        desire.setMag(this.maxVelocity);
+
+        //Compute the steering force
+        desire.sub(this.v);
+        desire.limit(this.maxForce);
+
+        //Weight the force and apply it
+        desire.mult(weight);
+        this.applyForce(desire);
+    }
+    
+    
+    //From this point here the code is basicaly old code
+    //You can find it full commented in /double-break/03 Flocking Systems/03 Align/
+    //The only new bit is the second 'weight' parameter
     this.align = function(birds, weight) {
         var r = createVector();
         var desire = createVector();
@@ -45,41 +98,7 @@ function Bird(x, y, size) {
 
     }
 
-    this.separate = function(birds, weight) {
-
-        var r = createVector();
-        var desire = createVector();
-        var count = 0;
-        for (var i = 0; i < birds.length; i++) {
-            var bird = birds[i];
-            if (bird == this) {
-                continue;
-            }
-            r.set(this.pos.x - bird.pos.x, this.pos.y - bird.pos.y);
-            var d = r.mag();
-
-            if (d > 25) {
-                continue;
-            }
-
-            r.normalize();
-            desire.add(r);
-            count++;
-        }
-
-        if (count == 0) {
-            return;
-        }
-
-        desire.div(count);
-        desire.mult(this.maxVelocity);
-
-        desire.sub(this.v);
-        desire.limit(this.maxForce);
-
-        desire.mult(weight);
-        this.applyForce(desire);
-    }
+    
 
     this.seek = function(target) {
         var desire = p5.Vector.sub(target, this.pos);
