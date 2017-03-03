@@ -1,6 +1,6 @@
 var birds = [];
 
-//Lets put some sliders to control the flocking behavior
+//Let's put some sliders to control the flocking behavior
 var sepSlider;
 var algnSlider;
 
