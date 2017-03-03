@@ -11,7 +11,7 @@ function Bird(x, y, size) {
     this.maxForce = 0.2;
 
     //So here is our separate steering behavior
-    //Nothing fancy - just collect the unit vectors pointing from neighbors to this bird,
+    //Nothing fancy - just collect the unit vectors pointing from neighbours to this bird,
     //sum them, average them and use the result as desired velocity direction
     this.separate = function(birds, weight) {
 
@@ -21,7 +21,7 @@ function Bird(x, y, size) {
         for (var i = 0; i < birds.length; i++) {
             var bird = birds[i];
             
-            //if the examined bird is this bird, skeep the loop's step
+            //if the examined bird is this bird, skip the loop's step
             if (bird == this) {
                 continue;
             }
@@ -30,7 +30,7 @@ function Bird(x, y, size) {
             r.set(this.pos.x - bird.pos.x, this.pos.y - bird.pos.y);
             var d = r.mag();
 
-            //if the neighbor is far than 25 pixels - skip loop's step
+            //if the neighbour is far than 25 pixels - skip loop's step
             if (d > 25) {
                 continue;
             }
@@ -42,12 +42,12 @@ function Bird(x, y, size) {
             count++;
         }
         
-        //Get out of this method if no neighbors arround 
+        //Get out of this method if no neighbours arround 
         if (count == 0) {
             return;
         }
 
-        desire.div(count); //This step is abigous, but I left the code to clarify the concept
+        desire.div(count); //This step is ambigous, but I left the code to clarify the concept
         desire.setMag(this.maxVelocity);
 
         //Compute the steering force
@@ -61,7 +61,7 @@ function Bird(x, y, size) {
     
     
     //From this point here the code is basicaly old code
-    //You can find it full commented in /double-break/03 Flocking Systems/03 Align/
+    //You can find it fully commented in /double-break/03 Flocking Systems/03 Align/
     //The only new bit is the second 'weight' parameter
     this.align = function(birds, weight) {
         var r = createVector();
