@@ -20,7 +20,7 @@ function keyPressed() {
 function draw() {
     background(53);
     for (var i = 0; i < birds.length; i++) {
-        birds[i].separate(birds, 2);
+        birds[i].separate(birds, 1.5);
         birds[i].cohesion(birds, 1);
         birds[i].align(birds, 1);
         birds[i].update();

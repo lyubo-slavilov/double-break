@@ -1,17 +1,56 @@
 function Bird(x, y, size) {
 
     this.size = size;
+    
+    //Physics stuff
     this.pos = createVector(x,y);
-
     this.v = createVector();
     this.a = createVector();
-    this.fill = [200,200,200,100];
+    
 
+    //Maximum force and velocity
     this.maxVelocity = 3;
     this.maxForce = 0.05;
 
     this.fov = 50;
 
+    //Here is the new behavior - cohesion
+    //Just check all neighbours and find their average position
+    //Use the seek behavior to steer to this position
+    this.cohesion = function(birds, weight) {
+        
+        var avgPos = createVector();
+        var count = 0;
+        var r = createVector();
+
+        for (var i = 0; i < birds.length; i++) {
+            var bird = birds[i];
+            if (bird == this) {
+                continue;
+            }
+            r.set(this.pos.x - bird.pos.x, this.pos.y - bird.pos.y);
+            var d = r.mag();
+
+            if (d > this.fov) {
+                continue;
+            }
+            //accumulate neighbours' positions
+            avgPos.add(bird.pos);
+            count ++;
+        }
+
+        if (count == 0 ) {
+            return;
+        }
+        //divide to find the average
+        avgPos.div(count);
+        
+        //steer towards this position
+        this.seek(avgPos, weight);
+    }
+    
+    
+    //THE OLD STUFF 
     this.align = function(birds, weight) {
         var r = createVector();
         var desire = createVector();
@@ -36,8 +75,6 @@ function Bird(x, y, size) {
         if (count == 0) {
             return;
         }
-
-        desire.div(count);
         desire.setMag(this.maxVelocity);
 
         desire.sub(this.v);
@@ -73,9 +110,7 @@ function Bird(x, y, size) {
             return;
         }
 
-        desire.div(count);
-        desire.normalize();
-        desire.mult(this.maxVelocity);
+        desire.setMag(this.maxVelocity);
 
         desire.sub(this.v);
         desire.limit(this.maxForce);
@@ -84,33 +119,7 @@ function Bird(x, y, size) {
         this.applyForce(desire);
     }
 
-    this.cohesion = function(birds, weight) {
-        var avgPos = createVector();
-        var count = 0;
-        var r = createVector();
-
-        for (var i = 0; i < birds.length; i++) {
-            var bird = birds[i];
-            if (bird == this) {
-                continue;
-            }
-            r.set(this.pos.x - bird.pos.x, this.pos.y - bird.pos.y);
-            var d = r.mag();
-
-            if (d > this.fov) {
-                continue;
-            }
-            avgPos.add(bird.pos);
-            count ++;
-        }
-
-        if (count == 0 ) {
-            return;
-        }
-        avgPos.div(count);
-
-        this.seek(avgPos, weight);
-    }
+    
 
     this.seek = function(target, weight) {
         var desire = p5.Vector.sub(target, this.pos);
