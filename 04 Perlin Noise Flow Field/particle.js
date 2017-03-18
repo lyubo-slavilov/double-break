@@ -6,7 +6,6 @@ function Particle() {
     this.v = p5.Vector.random2D();
     this.v.mult(3);
     this.a = createVector();
-    this.hueOffset = floor(random(0, 400));
     //Our simplest fisics
     this.update = function() {
         this.prev.set(this.pos.x, this.pos.y)
@@ -44,7 +43,7 @@ function Particle() {
 
     this.show = function() {
 
-        var h = (frameCount + this.hueOffset) % 400;
+        var h = frameCount % 400;
         if (h < 200) {
             h = map(h, 0, 199, 0, 40); //red to yellow
         } else {
