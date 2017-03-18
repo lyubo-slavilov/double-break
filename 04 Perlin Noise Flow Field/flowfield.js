@@ -6,19 +6,20 @@ function Flowfield(size) {
     this.angles = [];
     this.t = 0;
 
+    //generate the initial values of the flow wield using perlin noise
     for (var j = 0; j < this.rows; j++) {
-        for (var i = 0; i <  this.cols; i++) {
-            var a = noise(i*this.scl, j * this.scl, 0)*TWO_PI;
+        for (var i = 0; i < this.cols; i++) {
+            var a = noise(i * this.scl, j * this.scl, 0) * TWO_PI;
             this.angles.push(a);
         }
     }
 
-
+    //update the flow field by varying the third parameter of the noise() function
     this.update = function() {
         for (var j = 0; j < this.rows; j++) {
-            for (var i = 0; i <  this.cols; i++) {
-                var a = noise(i*this.scl, j * this.scl, this.t)*TWO_PI;
-                var index = i + j*this.cols;
+            for (var i = 0; i < this.cols; i++) {
+                var a = noise(i * this.scl, j * this.scl, this.t) * TWO_PI;
+                var index = i + j * this.cols;
                 this.angles[index] = a;
             }
         }
@@ -29,16 +30,15 @@ function Flowfield(size) {
         stroke(255);
         strokeWeight(1);
         for (var j = 0; j < this.rows; j++) {
-            for (var i = 0; i <  this.cols; i++) {
-                var index = i + j*this.cols;
+            for (var i = 0; i < this.cols; i++) {
+                var index = i + j * this.cols;
 
                 var a = this.angles[index];
 
                 push();
-                translate(i*this.size, j*this.size);
+                translate(i * this.size, j * this.size);
                 rotate(a);
-
-                line(0,0,this.size, 0);
+                line(0, 0, this.size, 0);
                 pop();
             }
         }

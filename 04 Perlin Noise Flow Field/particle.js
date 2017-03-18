@@ -1,4 +1,4 @@
-function Particle()  {
+function Particle() {
 
     this.pos = createVector(random(width), random(height));
     this.prev = createVector(this.pos.x, this.pos.y);
@@ -6,13 +6,15 @@ function Particle()  {
     this.v = p5.Vector.random2D();
     this.v.mult(3);
     this.a = createVector();
-
+    this.hueOffset = floor(random(0, 400));
+    //Our simplest fisics
     this.update = function() {
         this.prev.set(this.pos.x, this.pos.y)
         this.v.add(this.a);
         this.v.limit(5);
         this.pos.add(this.v);
 
+        //Boundaries
         if (this.pos.x < 0) {
             this.pos.x = width;
             this.prev.x = width;
@@ -42,13 +44,14 @@ function Particle()  {
 
     this.show = function() {
 
-        var h = frameCount % 400;
+        var h = (frameCount + this.hueOffset) % 400;
+        if (h < 200) {
+            h = map(h, 0, 199, 0, 40); //red to yellow
+        } else {
+            h = map(h, 200, 399, 40, 0); //yellow to red
+        }
 
-        h = map(h, 0, 400, 0, 40);
-
-        h  = floor(h);
-
-        stroke(h,255,100,0.03);
+        stroke(h, 255, 100, 0.03);
         strokeWeight(4);
         line(this.prev.x, this.prev.y, this.pos.x, this.pos.y);
     }
