@@ -23,7 +23,7 @@ function setup() {
 
 
     //Second create a symetric map of connections
-    //Bassicaly conmap[i][j] and conmap[j][i] are true if there is a connection
+    //Bassicaly connmap[i][j] and connmap[j][i] are true if there is a connection
     //between particle i and particle j
     var connmap = [];
     for (var i = 0; i < particles.length; i++) {
@@ -45,7 +45,7 @@ function setup() {
             }
 
             if (distSq(particles[i], particles[j]) >= maxConnectionDistance*maxConnectionDistance) {
-                continue; //skip this pair as particles are to far eachother
+                continue; //skip this pair as particles are too far eachother
             }
 
             edges.push(new Edge(particles[i], particles[j]));

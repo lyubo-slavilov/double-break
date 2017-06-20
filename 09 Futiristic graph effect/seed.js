@@ -1,11 +1,11 @@
 function Seed(x, y) {
-    //this is the seed anchor position and it is not updated
+    //this is the seed anchor position and it is never updated
     this.anchor = createVector(x, y);
 
     //this is the updated position which wiggles arrownd the anchor
     this.pos = this.anchor.copy();
 
-    //Noice offsets to produce more organic feel
+    //Noise offsets to produce more organic feel
     this.noiseOffsetX = random(1000);
     this.noiseOffsetY = random(1000);
 
