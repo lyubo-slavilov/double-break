@@ -18,6 +18,7 @@ function Particle(seed) {
 
         var wx, wy;
 
+        //Play with this number to produce different wiggle behaviours
         var wiggle = 300;
         var wiggleScale = 1/50;
 
